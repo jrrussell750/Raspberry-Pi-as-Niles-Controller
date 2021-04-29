@@ -5,15 +5,28 @@ The following components are required to complete this project:
 Hardware:
 
 Raspberry Pi Model 3B+ or newer
+
 Raspberry Pi power supply
+
+  Make sure that your power supply is a good match to the model of Raspberry Pi that you are using.  The Raspberry Pi 4 uses a 
+  5.1V 3Amp supply with a USB-C male connector.  Raspberry Pi 3B+ and below use power supplies with micro-usb male connectors on
+  them.
+
 Raspberry Pi case
+
 Micro SD card
-USB keyboard/mouse
+
+  It is important to note that the SD card is a bottleneck for the Raspberry Pi.  I suggest that you buy
+  the fastest card in a given memory size in terms of throughput.  Medium sized cards, such as the Samsung 32GB Evo Plus MicroSD Card 
+  are a good value and work well with Raspberry Pi computers.
+  
 HDMI Monitor
+USB keyboard/mouse
 Network patch cable (to connect Raspberry Pi to Niles GXR2)
 Network capable computer to download Raspbian software and install it on Micro SD card
 SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
-Device with a web browser on the same local network as the Raspberry Pi wireless connection
+A properly functioning pre-programmed Niles GXR2 system unit with at least one input card installed
+A device that has a web browser and is on the same local network as the Raspberry Pi wireless connection
 
 Software:
 
@@ -24,17 +37,44 @@ Main steps to complete the project:
 
 1.  Insert the SD card into the computer
 2.  Download the latest version of NOOBS from the Raspberry Pi Site and install it on the Micro SD card.
-3.  Insert the SD card into the Raspberry Pi and apply power to it.
+3.  Insert the SD card into the Raspberry Pi and then apply power.
 4.  Run the NOOBS install and select raspbian as the operating system.
 5.  Complete the post install configuration and reboot the Raspberry Pi.
 6.  Enable the wireless network on the Raspberry Pi.7
 7.  Install apache and php
 8.  Download files from this repository to the Raspberry Pi.
+
+      To download files, navigate to https://github.com/jrrussell750/Raspberry-Pi-as-Niles-Controller.  Click on the green
+      Code button and then select download zip from the menu that displays.  When the zip file is fully downloaded, unzip 
+      it into your /home/pi directory.  Open a terminal session and enter the following commands:
+      
+            sudo mv /home/pi/*.php /var/www/html/
+            sudo mv /home/pi/index.html /var/www/html/index.html
+            
+      That will move the html and php files to the correct directory.
+      
 9.  Create a file in the /home/pi directory called GXR2status.txt.  The contents of the file should be six zeroes.
+
+
 10.  Compile the getstatus.cpp file and run it in its own terminal session.
-11  Connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
-12. Use the ifconfig command to get the IP address of the wireless connection.
+       Use the following command to compile the file:
+       
+            g++ getstatus.cpp
+
+11  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+
+12. Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
+    address.  Also, record the IP address of the wireless connection.
+    
 13. Type the IP address into the address window on a web browser on a network capable device that is part of your 
     local area network(for example, if your IP is 192.168.0.100, you would type http://192.168.0.100 in the address 
     text box at the top of the browser.)
+    
+    Note:  If you are using the browser on the same Raspberry Pi as the apache server, make sure you use the IP address 
+    to access the web site and not the localhost name.  This code uses session variables, and localhost will start 
+    one session.  As soon as you switch from the zone display to a controller screen, the php code automatically grabs the 
+    actual IP address and uses it for future navigation.  This causes the browser to start a separate session with different 
+    variables, causing the zone information from the original session to get lost.  You'll be able to tell if this is 
+    happening because the zone name won't appear at the top of your controller screen.
+    
 14. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
