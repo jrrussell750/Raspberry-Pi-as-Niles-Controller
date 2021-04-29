@@ -1,0 +1,40 @@
+These instructions are under construction and are subject to daily updates.
+
+The following components are required to complete this project:
+
+Hardware:
+
+Raspberry Pi Model 3B+ or newer
+Raspberry Pi power supply
+Raspberry Pi case
+Micro SD card
+USB keyboard/mouse
+HDMI Monitor
+Network patch cable (to connect Raspberry Pi to Niles GXR2)
+Network capable computer to download Raspbian software and install it on Micro SD card
+SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
+Device with a web browser on the same local network as the Raspberry Pi wireless connection
+
+Software:
+
+Raspbian Buster operating system
+Files from this repository
+
+Main steps to complete the project:
+
+1.  Insert the SD card into the computer
+2.  Download the latest version of NOOBS from the Raspberry Pi Site and install it on the Micro SD card.
+3.  Insert the SD card into the Raspberry Pi and apply power to it.
+4.  Run the NOOBS install and select raspbian as the operating system.
+5.  Complete the post install configuration and reboot the Raspberry Pi.
+6.  Enable the wireless network on the Raspberry Pi.7
+7.  Install apache and php
+8.  Download files from this repository to the Raspberry Pi.
+9.  Create a file in the /home/pi directory called GXR2status.txt.  The contents of the file should be six zeroes.
+10.  Compile the getstatus.cpp file and run it in its own terminal session.
+11  Connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+12. Use the ifconfig command to get the IP address of the wireless connection.
+13. Type the IP address into the address window on a web browser on a network capable device that is part of your 
+    local area network(for example, if your IP is 192.168.0.100, you would type http://192.168.0.100 in the address 
+    text box at the top of the browser.)
+14. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
