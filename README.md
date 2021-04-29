@@ -1,2 +1,2 @@
 # Raspberry-Pi-as-Niles-Controller
-Contains code to enable a Raspberry Pi to emulate a single controller for a Niles GXR2 system.
+Contains code to enable a Raspberry Pi to emulate a single controller for a Niles GXR2 system.  A Raspberry Pi 3 B+ or above is configured as an apache2 web server with PHP, and the code in this repository is copied to the /var/www/html directory.  A web browser on a network capable device is used to access the web server on the Raspberry Pi to control zone and input selection, volume, and navigation. 
