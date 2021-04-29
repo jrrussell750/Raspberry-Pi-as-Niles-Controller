@@ -48,7 +48,7 @@
 *  4 - fourth input device selected                                    *
 *  5 - fifth input device selected                                     *
 *  6 - sixth input device selected                                     *
-************************************************************************
+***********************************************************************/
   
 	my_file.open("/home/pi/GXR2status.txt", ios::in);
 	if (!my_file) {
