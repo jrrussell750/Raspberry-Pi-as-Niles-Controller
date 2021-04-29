@@ -23,6 +23,7 @@ Micro SD card
 HDMI Monitor
 USB keyboard/mouse
 Network patch cable (to connect Raspberry Pi to Niles GXR2)
+
 Network capable computer to download Raspbian software and install it on Micro SD card
 SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
 A properly functioning pre-programmed Niles GXR2 system unit with at least one input card installed
@@ -35,8 +36,14 @@ Files from this repository
 
 Main steps to complete the project:
 
-1.  Insert the SD card into the computer
-2.  Download the latest version of NOOBS from the Raspberry Pi Site and install it on the Micro SD card.
+1.  Insert the SD card into the computer.
+
+2.  Download the latest version of the Raspberry Pi Imager from the raspberrypi.org site and use it to install 
+    raspbian buster on the Micro SD card.
+    
+      When you're doing this step, it is a good idea to review the latest installation procedures on the
+      Raspberry Pi Web Site.  They describe the process in detail.
+    
 3.  Insert the SD card into the Raspberry Pi and then apply power.
 4.  Run the NOOBS install and select raspbian as the operating system.
 5.  Complete the post install configuration and reboot the Raspberry Pi.
