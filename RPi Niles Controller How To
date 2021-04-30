@@ -77,7 +77,7 @@ Main steps to complete the project:
       That will move the html and php files to the correct directory.
       
 10.  Create a file in the /home/pi directory called GXR2status.txt (you can use sudo nano GXR2status.txt to open it.)  The contents of the 
-    file should be six zeroes with no spaces between them. Set the owner and group on this file to pi using the following command:
+     file should be six zeroes with no spaces between them. Set the owner and group on this file to pi using the following command:
     
             sudo chown pi:pi GXR2Status.txt
 
@@ -94,6 +94,11 @@ Main steps to complete the project:
 
 
 12.  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+
+     Please use caution here.  You need to plug the network connection from the Raspberry Pi into the connector labeled EXPANSION.  The other 12 RJ45 
+     female connectors are for Niles controllers, and they have have 12 volts on pins 7 and 8.  Therefore, it is not a good idea to plug anything but 
+     Niles controllers into those connectors.  In addition pins 4 and 5 on those connectors are used for infrared connections, so they are anything 
+     but standard ethernet connections.  
 
 13.  Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
      address.  Also, record the IP address of the wireless connection.
