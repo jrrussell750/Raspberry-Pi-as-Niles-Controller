@@ -1,5 +1,3 @@
-These instructions are under construction and are subject to daily updates.
-
 The following components are required to complete this project:
 
 Hardware:
@@ -27,7 +25,8 @@ USB keyboard/mouse
 Network patch cable (to connect Raspberry Pi to Niles GXR2)
 
 Network capable computer to download Raspbian software and install it on Micro SD card
-  SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
+
+SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
   
 A properly functioning pre-programmed Niles GXR2 system unit with at least one input card installed
 
@@ -44,7 +43,6 @@ Network access:
 You will require wireless access to a local area network that has high speed Internet access.  this is required for downloading and installing 
 software, and for other users to locally access the web site on the Raspberry Pi.
 
-
 Main steps to complete the project:
 
 1.  Insert the SD card into the computer.
@@ -57,53 +55,54 @@ Main steps to complete the project:
       Raspberry Pi Web Site.  They describe the process in detail.
     
 4.  Insert the SD card into the Raspberry Pi and then apply power.
-5.  Run the NOOBS install and select raspbian as the operating system.
-6.  Complete the post install configuration and reboot the Raspberry Pi.
-7.  Enable the wireless network on the Raspberry Pi.7
-8.  Install apache and php using the following commands:
+5.  Complete the post install configuration and reboot the Raspberry Pi.
+6.  Enable the wireless network on the Raspberry Pi.
+7.  Open a console and install apache and php using the following commands:
 
-            sudo apt-get install apache2
-            sudo apt-get install php
+            sudo apt-get install apache2 -y
+            sudo apt-get install php -y
             
-9.  Download all of the files from this repository to the Raspberry Pi.
+8.  Download all of the files from this repository to the Raspberry Pi.
 
       To download files, navigate to https://github.com/jrrussell750/Raspberry-Pi-as-Niles-Controller.  Click on the green
-      Code button and then select download zip from the menu that displays.  When the zip file is fully downloaded, unzip 
-      it into your /home/pi directory.  Open a terminal session and enter the following commands:
+      Code button and then select "Download ZIP" from the menu that displays.  When the zip file is fully downloaded, unzip 
+      it directly into your /home/pi directory.  Open a terminal session and enter the following commands:
       
             sudo mv /home/pi/*.php /var/www/html/
             sudo mv /home/pi/index.html /var/www/html/index.html
             
       That will move the html and php files to the correct directory.
       
-10.  Create a file in the /home/pi directory called GXR2status.txt (you can use sudo nano GXR2status.txt to open it.)  The contents of the 
+9.  Create a file in the /home/pi directory called GXR2status.txt (you can use sudo nano GXR2status.txt to open it.)  The contents of the 
      file should be six zeroes with no spaces between them. Set the owner and group on this file to pi using the following command:
     
-            sudo chown pi:pi GXR2Status.txt
+            sudo chown pi:pi GXR2status.txt
 
 
-11.  Compile the getstatus.cpp file and run it in its own terminal session using the following commands:
+10.  Compile the getstatus.cpp file and run it in its own terminal session using the following commands:
        
             g++ getstatus.cpp
             ./a.out
 
-        Note:  You can terminate the program by closing the terminal session or by using the following key combination (press both keys 
-        on your keyboard at the same time.)
+        Note:  The purpose of this program is to capture status information from the Niles GXR2.  The status information is used to indicate which
+        device is selected for a particular zone.  If you don't care what device is selected and you don't have any need for the prev or next buttons, 
+        you can run the web server without it.  Also, you can terminate the program at any time by closing the terminal session or by using the 
+        following key combination (press both keys on your keyboard at the same time.)
        
             <Ctrl> c           
 
 
-12.  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+11.  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
 
      Please use caution here.  You need to plug the network connection from the Raspberry Pi into the connector labeled EXPANSION.  The other 12 RJ45 
      female connectors are for Niles controllers, and they have have 12 volts on pins 7 and 8.  Therefore, it is not a good idea to plug anything but 
      Niles controllers into those connectors.  In addition pins 4 and 5 on those connectors are used for infrared connections, so they are anything 
      but standard ethernet connections.  
 
-13.  Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
+12.  Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
      address.  Also, record the IP address of the wireless connection.
     
-14. Type the IP address into the address window on a web browser on a network capable device that is part of your 
+13. Type the IP address into the address window on a web browser on a network capable device that is part of your 
     local area network(for example, if your IP is 192.168.0.100, you would type http://192.168.0.100 in the address 
     text box at the top of the browser.)
     
@@ -114,4 +113,4 @@ Main steps to complete the project:
     variables, causing the zone information from the original session to get lost.  You'll be able to tell if this is 
     happening because the zone name won't appear at the top of your controller screen.
     
-15. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
+14. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
