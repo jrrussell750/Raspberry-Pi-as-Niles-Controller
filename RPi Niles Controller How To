@@ -21,35 +21,51 @@ Micro SD card
   are a good value and work well with Raspberry Pi computers.
   
 HDMI Monitor
+
 USB keyboard/mouse
+
 Network patch cable (to connect Raspberry Pi to Niles GXR2)
 
 Network capable computer to download Raspbian software and install it on Micro SD card
-SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
+  SD memory card adapter for computer (some computers have integrated SD slots, or a USB adapter can be used)
+  
 A properly functioning pre-programmed Niles GXR2 system unit with at least one input card installed
+
 A device that has a web browser and is on the same local network as the Raspberry Pi wireless connection
 
 Software:
 
 Raspbian Buster operating system
+
 Files from this repository
+
+Network access:
+
+You will require wireless access to a local area network that has high speed Internet access.  this is required for downloading and installing 
+software, and for other users to locally access the web site on the Raspberry Pi.
+
 
 Main steps to complete the project:
 
 1.  Insert the SD card into the computer.
 
-2.  Download the latest version of the Raspberry Pi Imager from the raspberrypi.org site and use it to install 
-    raspbian buster on the Micro SD card.
+2.  Download and install the latest version of the Raspberry Pi Imager from the raspberrypi.org site. 
+
+3.  Using the Raspberry Pi imager, install raspbian buster on the Micro SD card.
     
       When you're doing this step, it is a good idea to review the latest installation procedures on the
       Raspberry Pi Web Site.  They describe the process in detail.
     
-3.  Insert the SD card into the Raspberry Pi and then apply power.
-4.  Run the NOOBS install and select raspbian as the operating system.
-5.  Complete the post install configuration and reboot the Raspberry Pi.
-6.  Enable the wireless network on the Raspberry Pi.7
-7.  Install apache and php
-8.  Download files from this repository to the Raspberry Pi.
+4.  Insert the SD card into the Raspberry Pi and then apply power.
+5.  Run the NOOBS install and select raspbian as the operating system.
+6.  Complete the post install configuration and reboot the Raspberry Pi.
+7.  Enable the wireless network on the Raspberry Pi.7
+8.  Install apache and php using the following commands:
+
+            sudo apt-get install apache2
+            sudo apt-get install php
+            
+9.  Download all of the files from this repository to the Raspberry Pi.
 
       To download files, navigate to https://github.com/jrrussell750/Raspberry-Pi-as-Niles-Controller.  Click on the green
       Code button and then select download zip from the menu that displays.  When the zip file is fully downloaded, unzip 
@@ -60,20 +76,29 @@ Main steps to complete the project:
             
       That will move the html and php files to the correct directory.
       
-9.  Create a file in the /home/pi directory called GXR2status.txt.  The contents of the file should be six zeroes.
+10.  Create a file in the /home/pi directory called GXR2status.txt (you can use sudo nano GXR2status.txt to open it.)  The contents of the 
+    file should be six zeroes with no spaces between them. Set the owner and group on this file to pi using the following command:
+    
+            sudo chown pi:pi GXR2Status.txt
 
 
-10.  Compile the getstatus.cpp file and run it in its own terminal session.
-       Use the following command to compile the file:
+11.  Compile the getstatus.cpp file and run it in its own terminal session using the following commands:
        
             g++ getstatus.cpp
+            ./a.out
 
-11  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+        Note:  You can terminate the program by closing the terminal session or by using the following key combination (press both keys 
+        on your keyboard at the same time.)
+       
+            <Ctrl> c           
 
-12. Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
-    address.  Also, record the IP address of the wireless connection.
+
+12.  Using the network patch cable connect the Raspberry Pi to the expansion port on the back of the Niles GXR2.
+
+13.  Use the ifconfig command to verify that the Niles GXR2 DHCP server has given the wired connection an IP
+     address.  Also, record the IP address of the wireless connection.
     
-13. Type the IP address into the address window on a web browser on a network capable device that is part of your 
+14. Type the IP address into the address window on a web browser on a network capable device that is part of your 
     local area network(for example, if your IP is 192.168.0.100, you would type http://192.168.0.100 in the address 
     text box at the top of the browser.)
     
@@ -84,4 +109,4 @@ Main steps to complete the project:
     variables, causing the zone information from the original session to get lost.  You'll be able to tell if this is 
     happening because the zone name won't appear at the top of your controller screen.
     
-14. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
+15. Navigate by clicking on the buttons on the displays that are provided by the Raspberry Pi.
