@@ -1,4 +1,4 @@
- #include <stdio.h>          
+#include <stdio.h>          
  #include <stdlib.h>         
  #include <sys/types.h>
  #include <sys/socket.h>     
@@ -14,7 +14,11 @@
  #include <fstream>
  #define MAXLEN 1024
  using namespace std;
-  
+ 
+/*****************************************************************
+ *  Compile me using the following command:  g++ getstatus.cpp   *
+ * 								 *
+ ****************************************************************/
  int main()
  {
      u_char no = 0;
@@ -25,7 +29,7 @@
      struct utsname name;
      struct in_addr binary_ip;
      struct sockaddr_in from;
-     int i, j, x;
+     int i, j, s, x;
      int send_s, recv_s; 
      int count;
      int status[6];
@@ -36,9 +40,11 @@
      char local_ip[80];
      char lastoctet[4];
      char ips[] = {'1','2','3','4','5','6'};
+     char ipzero[] = "0.0.0.0";
      const char *command;
      FILE * fp;
      size_t n;
+     
 /*********************************************************************** 
 *  Open the GXR2 status file and pull down a copy of the status table  * 
 *  The status for each zone is represented by a number from 0 to 6.    * 
@@ -63,27 +69,40 @@
 		my_file.close();
 	}
 
-//  Get the IP address for eth0  
+//  The niles GXR2 will always be connected to eth0  //
+//  Therefore the multicast socket must be bound to that interface  //
+
+//  Get the IP address for eth0 unless it doesn't exist  //
 
         fp = popen("ifconfig", "r");
         if (fp) {
                 getline(&p, &n, fp);
-                while (p != strstr(p, "eth0: ")) {
+                while ((p = strstr(p, "eth0: ")) == NULL) {
                         getline(&p, &n, fp);
-        }
+	        }
                 getline(&p, &n, fp);
-                if (p = strstr(p, "inet ")) {
+                if ((p = strstr(p, "inet ")) != NULL) {
                         p+=5;
-                         e = strchr(p, ' ');
+                        e = strchr(p, ' ');
                         *e = '\0';
-                        ip_addr = p; 
-                }    
+			ip_addr = p;
+	        }
+
+/********************************************************************
+ * If eth0 is not assigned an IP, let raspbian choose the interface *
+ * for the bind by setting ip_addr to 0.0.0.0                       *
+ * This will prevent a segmentation fault due to no IP address      *
+ * The netstat -gn command can be used to view the multicast        *  
+ * groups, if problems arise.                                       *
+ *******************************************************************/
+ 
+		else {
+			ip_addr  = ipzero;
+	        }
         }
         pclose(fp);
 
-
-
-//  Open a udp socket on port 6001 of eth0       //
+//  Open a udp socket on port 6001       //
      
      memset(&mcast_group, 0, sizeof(mcast_group));
      mcast_group.sin_family = AF_INET;
