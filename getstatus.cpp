@@ -1,4 +1,4 @@
-#include <stdio.h>          
+ #include <stdio.h>          
  #include <stdlib.h>         
  #include <sys/types.h>
  #include <sys/socket.h>     
@@ -29,14 +29,15 @@
      struct utsname name;
      struct in_addr binary_ip;
      struct sockaddr_in from;
-     int i, j, s, x;
+     int i, j, k, s, x;
      int send_s, recv_s; 
      int count;
-     int status[6];
+     int status[12];  
      char *p=NULL, *e, *ip_addr; 
      unsigned int len;
      char message [MAXLEN+1];
      char ipaddr[80];
+     char string_in[4];
      char local_ip[80];
      char lastoctet[4];
      char ips[] = {'1','2','3','4','5','6'};
@@ -46,8 +47,11 @@
      size_t n;
      
 /*********************************************************************** 
-*  Open the GXR2 status file and pull down a copy of the status table  * 
-*  The status for each zone is represented by a number from 0 to 6.    * 
+*  Open the GXR2 status file and pull down a copy of the status table. * 
+*  The status table consists of 12 integers.  The first six integers   *
+*  represent the status for each of six zones.  Each one consists of a *
+*  number from 0 to 6, as shown below:                                 *
+*                                                                      *
 *  0 - no input device selected                                        *
 *  1 - sirst input device selected                                     *
 *  2 - second input device selected                                    *
@@ -55,7 +59,12 @@
 *  4 - fourth input device selected                                    *
 *  5 - fifth input device selected                                     *
 *  6 - sixth input device selected                                     *
+*                                                                      *
+*  The second six integers represent the volume level of each zone.    *
+*  Volume levels range from 0 - 100.                                   *
+*                                                                      *
 ***********************************************************************/
+
         fstream my_file; 
 	my_file.open("/home/pi/GXR2status.txt", ios::in);
 	if (!my_file) {
@@ -63,7 +72,8 @@
 	}
 	else {
 		i=0;
-		while(my_file >> status[i]) { 
+		while(my_file >> string_in) {
+			status[i] = stoi(string_in); 
 			i++;
 		}
 		my_file.close();
@@ -129,22 +139,24 @@
 	for (;;) 
 	{
 	       read(recv_s, message, 1024);
-	       i=message[2]-33;  // zone //
+	       i=message[2]-33;  // zone   //
 	       j=message[11];    // status //
-
+	       k=message[20];    // volume //
+	       
           //  Update the status file if there are changes. //
 
-        if (j!=status[i])
+        if (j!=status[i] || k!=status[i+6])
         {
 			status[i] = j;
+			status[i+6] = k;
 			my_file.open("/home/pi/GXR2status.txt", ios::out);
 			if (!my_file) {
 				cout << "File not found!";
 			}
 			else {
-				for(i=0; i<6; i++) 
+				for(i=0; i<12; i++) 
 				{
-					my_file << status[i]; 
+					my_file << to_string(status[i]) << '\n';
 				}
 			}
 			my_file.close();
