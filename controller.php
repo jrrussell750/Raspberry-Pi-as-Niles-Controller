@@ -32,8 +32,8 @@ if (file_exists("/home/pi/GXR2status.txt")) {
      $myfile = fopen("/home/pi/GXR2status.txt", "r");    
     $i=0;
     while(!feof($myfile)) {
-         $array[$i] = fgetc($myfile);  // each element in the array contains the status for one zone
-         $i = $i + 1;
+         $array[$i] = fgets($myfile);  // The first 6 elements in the array contain the status of each of the 6 zones
+         $i = $i + 1;                  // The second 6 elements contain the volume levels for each zone
     }
      fclose($myfile);
 } else {
@@ -42,17 +42,18 @@ if (file_exists("/home/pi/GXR2status.txt")) {
 //  If the GXR2status.txt file doesn's exist, populate the status array with zeroes.
 //
      $i=0;
-     while($i<6) {
+     while($i<12) {
           $array[$i] = "0";  // if the file doesn't exist, initialize the status array with zeros
           $i = $i + 1;
      }   
 
 }
 
-//  Save the selected zone and device status in session variables so that they can be read by other pages
+//  Save the selected zone and device status and volume in session variables so that they can be read by other pages
 
 $i=$_SESSION["ZoneID"]-1;
 $_SESSION["deviceID"] = $array[$i];
+$_SESSION["Volume"] = $array[$i+6];
 
 ?>
 
@@ -142,6 +143,8 @@ $_SESSION["deviceID"] = $array[$i];
        </tr>
 
 </table>
+
+<h1 align="center">Volume Level = <?php echo $_SESSION["Volume"] ?><h1><br>
 
 <!-- Refresh the screen every 5 seconds to update status -->
 
