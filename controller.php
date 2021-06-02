@@ -64,7 +64,7 @@ $_SESSION["Volume"] = $array[$i+6];
 <table id="table1" border="1" width = "30%" height = "50%" align = "center">
        <tr> 
 
-<!-- The first siz entries in the table are input controls.  Input control is processed by niles.php -->
+<!-- The first six entries in the table are input controls.  Input control is processed by niles.php -->
 
            <td align="Center" valign="middle" <?php if ($_SESSION["deviceID"] == 1) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f1" action="./niles.php" method="post">
