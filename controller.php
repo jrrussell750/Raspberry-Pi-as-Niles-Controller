@@ -16,6 +16,13 @@ input, select, textarea {
 font-size: 300%;
 }
 
+.f2{
+      color: #FFFFFF;
+      border: none;
+      background-color: green;
+      opacity:1.0;
+}
+
 </style>
 </head> 
 <body> 
@@ -24,7 +31,7 @@ font-size: 300%;
 
 // Create a page title that contains the zone name //
 
-echo "<h1 align=\"center\">" . $_SESSION["Zone"] . "<h1><br>";
+echo "<h1 align=\"center\">" . $_SESSION["Zone"] . "<h1>";
 
 //  Get current status from GXR2status.txt file, if it exists.
 
@@ -68,32 +75,32 @@ $_SESSION["Volume"] = $array[$i+6];
 
            <td align="Center" valign="middle" <?php if ($_SESSION["deviceID"] == 1) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f1" action="./niles.php" method="post">
-                <input id="Input1" type="submit" name="InputSelector" value="Input1" height="50cm" width="50cm">
+                <input <?php if ($_SESSION["deviceID"] == 1) echo "class=\"f2\"";?>id="Input1" type="submit" name="InputSelector" value="Input1">
                </form>
            <td align="Center" <?php if ($_SESSION["deviceID"] == 2) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f2" action="./niles.php" method="post">
-                <input id="Input2" type="submit" name="InputSelector" value="Input2">
+                <input <?php if ($_SESSION["deviceID"] == 2) echo "class=\"f2\"";?>id="Input2" type="submit" name="InputSelector" value="Input2">
                </form>
        </tr>
        <tr> 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 3) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f3" action="./niles.php" method="post">
-                <input id="Input3" type="submit" name="InputSelector" value="Input3">
+                <input <?php if ($_SESSION["deviceID"] == 3) echo "class=\"f2\"";?>id="Input3" type="submit" name="InputSelector" value="Input3">
                </form>
            <td align="Center" <?php if ($_SESSION["deviceID"] == 4) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f4" action="./niles.php" method="post">
-                <input id="Input4" type="submit" name="InputSelector" value="Input4">
+                <input <?php if ($_SESSION["deviceID"] == 4) echo "class=\"f2\"";?>id="Input4" type="submit" name="InputSelector" value="Input4">
                </form>
        </tr>
        <tr> 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 5) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f5" action="./niles.php" method="post">
-                <input id="Input5" type="submit" name="InputSelector" value="Input5">
+                <input <?php if ($_SESSION["deviceID"] == 5) echo "class=\"f2\"";?>id="Input5" type="submit" name="InputSelector" value="Input5">
                </form>
 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 6) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f6" action="./niles.php" method="post">
-                <input id="Input6" type="submit" name="InputSelector" value="Input6">
+                <input <?php if ($_SESSION["deviceID"] == 6) echo "class=\"f2\"";?>id="Input6" type="submit" name="InputSelector" value="Input6">
                </form>
        </tr>
        <tr> 
@@ -144,9 +151,9 @@ $_SESSION["Volume"] = $array[$i+6];
  
        </tr>
 </table>
-<br>
 
-<h1 align="center">Volume Level = <?php echo $_SESSION["Volume"] ?></h1><br>
+
+<h1 align="center">Volume Level = <?php echo $_SESSION["Volume"] ?></h1>
 
 <table align="Center">
        <tr>
