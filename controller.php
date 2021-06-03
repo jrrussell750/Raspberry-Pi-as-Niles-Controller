@@ -68,32 +68,32 @@ $_SESSION["Volume"] = $array[$i+6];
 
            <td align="Center" valign="middle" <?php if ($_SESSION["deviceID"] == 1) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f1" action="./niles.php" method="post">
-                <input id="Input1" type="submit" name="InputSelector" value="Input1" height="50cm" width="50cm">
+                <input id="AM_FM" type="submit" name="InputSelector" value="AM_FM" height="50cm" width="50cm">
                </form>
            <td align="Center" <?php if ($_SESSION["deviceID"] == 2) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f2" action="./niles.php" method="post">
-                <input id="Input2" type="submit" name="InputSelector" value="Input2">
+                <input id="Wanpen" type="submit" name="InputSelector" value="Wanpen">
                </form>
        </tr>
        <tr> 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 3) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f3" action="./niles.php" method="post">
-                <input id="Input3" type="submit" name="InputSelector" value="Input3">
+                <input id="TV" type="submit" name="InputSelector" value="TV">
                </form>
            <td align="Center" <?php if ($_SESSION["deviceID"] == 4) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f4" action="./niles.php" method="post">
-                <input id="Input4" type="submit" name="InputSelector" value="Input4">
+                <input id="Echo" type="submit" name="InputSelector" value="Echo">
                </form>
        </tr>
        <tr> 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 5) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f5" action="./niles.php" method="post">
-                <input id="Input5" type="submit" name="InputSelector" value="Input5">
+                <input id="Glen" type="submit" name="InputSelector" value="Glen">
                </form>
 
            <td align="Center" <?php if ($_SESSION["deviceID"] == 6) echo "bgcolor=\"green\">"; else echo "bgcolor=\"white\">";?> 
                <form name="f6" action="./niles.php" method="post">
-                <input id="Input6" type="submit" name="InputSelector" value="Input6">
+                <input id="John" type="submit" name="InputSelector" value="John">
                </form>
        </tr>
        <tr> 
@@ -140,11 +140,27 @@ $_SESSION["Volume"] = $array[$i+6];
                 <input id="Zones" type="submit" name="InputSelector" value="Zones">
 
                </form>
+ 
+ 
        </tr>
-
 </table>
+<br>
 
-<h1 align="center">Volume Level = <?php echo $_SESSION["Volume"] ?><h1><br>
+<h1 align="center">Volume Level = <?php echo $_SESSION["Volume"] ?></h1><br>
+
+<table align="Center">
+       <tr>
+          <td align="Center">  
+
+<!-- This cell is for the "AllOff" command, which turns off all the zones.  
+<!-- The "AllOff" command is processed by niles.php.-->
+
+                <form name="f13" action="./alloff.php" method="post">
+                <input id="All zones Off" type="submit" name="InputSelector" value="All Zones Off">
+               </form>
+          </td>
+       </tr>
+</table>
 
 <!-- Refresh the screen every 5 seconds to update status -->
 
