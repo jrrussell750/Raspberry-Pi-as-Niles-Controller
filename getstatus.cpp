@@ -65,20 +65,34 @@
 *                                                                      *
 ***********************************************************************/
 
-        fstream my_file; 
-	my_file.open("/home/pi/GXR2status.txt", ios::in);
-	if (!my_file) {
-		cout << "File not found!";
-	}
-	else {
-		i=0;
-		while(my_file >> string_in) {
-			status[i] = stoi(string_in); 
-			i++;
-		}
-		my_file.close();
-	}
-
+ 
+ 
+/***************************************************************
+*  Check for the existence of the GXR2status.txt file          *
+*  If it doesn't exist, create it and populate it with zeroes  *
+*                                                              *
+***************************************************************/
+ 
+     fstream my_file; 
+     my_file.open("/home/pi/GXR2status.txt", ios::in);
+     if (!my_file) {
+	  cout << "Creating file GXR2status.txt" << endl;
+	  my_file.open("/home/pi/GXR2status.txt", ios::out);
+	  for(i=0; i<12; i++) {
+	       my_file << "0"  << endl;
+	  }
+	  my_file.close();
+	  my_file.open("/home/pi/GXR2status.txt", ios::in);
+     }
+	      
+     i=0;
+     while(my_file >> string_in) {
+	  status[i] = stoi(string_in); 
+	  i++;
+     }
+     my_file.close();
+	     
+		
 //  The niles GXR2 will always be connected to eth0  //
 //  Therefore the multicast socket must be bound to that interface  //
 
@@ -87,7 +101,7 @@
         fp = popen("ifconfig", "r");
         if (fp) {
                 getline(&p, &n, fp);
-                while ((p = strstr(p, "eth0: ")) == NULL) {
+                while ((p = strstr(p, "wlan0: ")) == NULL) {
                         getline(&p, &n, fp);
 	        }
                 getline(&p, &n, fp);
@@ -143,7 +157,7 @@
 	       j=message[11];    // status //
 	       k=message[20];    // volume //
 	       
-          //  Update the status file if there are changes. //
+          //  Update the statuclose(my_file)s file if there are changes. //
 
         if (j!=status[i] || k!=status[i+6])
         {
