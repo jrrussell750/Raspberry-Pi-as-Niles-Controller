@@ -69,20 +69,21 @@
  
 /***************************************************************
 *  Check for the existence of the GXR2status.txt file          *
+*  in /var/www/html                                            *
 *  If it doesn't exist, create it and populate it with zeroes  *
 *                                                              *
 ***************************************************************/
  
      fstream my_file; 
-     my_file.open("/home/pi/GXR2status.txt", ios::in);
+     my_file.open("/var/www/html/GXR2status.txt", ios::in);
      if (!my_file) {
 	  cout << "Creating file GXR2status.txt" << endl;
-	  my_file.open("/home/pi/GXR2status.txt", ios::out);
+	  my_file.open("/var/www/html/GXR2status.txt", ios::out);
 	  for(i=0; i<12; i++) {
 	       my_file << "0"  << endl;
 	  }
 	  my_file.close();
-	  my_file.open("/home/pi/GXR2status.txt", ios::in);
+	  my_file.open("/var/www/html/GXR2status.txt", ios::in);
      }
 	      
      i=0;
@@ -101,7 +102,7 @@
         fp = popen("ifconfig", "r");
         if (fp) {
                 getline(&p, &n, fp);
-                while ((p = strstr(p, "wlan0: ")) == NULL) {
+                while ((p = strstr(p, "eth0: ")) == NULL) {
                         getline(&p, &n, fp);
 	        }
                 getline(&p, &n, fp);
@@ -163,7 +164,7 @@
         {
 			status[i] = j;
 			status[i+6] = k;
-			my_file.open("/home/pi/GXR2status.txt", ios::out);
+			my_file.open("/var/www/html/GXR2status.txt", ios::out);
 			if (!my_file) {
 				cout << "File not found!";
 			}
