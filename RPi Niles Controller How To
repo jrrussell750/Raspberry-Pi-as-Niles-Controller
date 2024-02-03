@@ -73,7 +73,7 @@ Main steps to complete the project:
             
       That will move the html and php files to the correct directory.
       
-9.  Create a file in the /home/pi directory called GXR2status.txt.  You can use the following command to create it:
+9.  Create a file in the /var/www/html directory called GXR2status.txt.  You can use the following command to create it:
 
             sudo nano GXR2status.txt
             
@@ -95,7 +95,11 @@ Main steps to complete the project:
           
      Set the owner and group on this file to pi using the following command:
     
-            sudo chown pi:pi GXR2status.txt
+            sudo chown pi:pi /var/www/html/GXR2status.txt
+
+     Set the permissions ead, write, and execute for the user, group, and others using the following command:
+
+            sudo chmod 777 /var/www/html/GXR2status.txt
             
      This file will contain the status and volume level for each zone.
 
