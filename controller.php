@@ -35,8 +35,8 @@ echo "<h1 align=\"center\">" . $_SESSION["Zone"] . "<h1>";
 
 //  Get current status from GXR2status.txt file, if it exists.
 
-if (file_exists("/home/pi/GXR2status.txt")) {
-     $myfile = fopen("/home/pi/GXR2status.txt", "r");    
+if (file_exists("/var/www/html/GXR2status.txt")) {
+     $myfile = fopen("/var/www/html/GXR2status.txt", "r");    
     $i=0;
     while(!feof($myfile)) {
          $array[$i] = fgets($myfile);  // The first 6 elements in the array contain the status of each of the 6 zones
