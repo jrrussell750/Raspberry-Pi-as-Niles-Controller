@@ -75,7 +75,7 @@ Main steps to complete the project:
       
 9.  Create a file in the /var/www/html directory called GXR2status.txt.  You can use the following command to create it:
 
-            sudo nano GXR2status.txt
+            sudo nano /var/www/html/GXR2status.txt
             
      The contents of the file should be a column of 12 zeroes, each one followed by a new line character.  
      It should look like this:
