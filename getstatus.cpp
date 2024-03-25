@@ -53,7 +53,7 @@
 *  number from 0 to 6, as shown below:                                 *
 *                                                                      *
 *  0 - no input device selected                                        *
-*  1 - sirst input device selected                                     *
+*  1 - first input device selected                                     *
 *  2 - second input device selected                                    *
 *  3 - third input device selected                                     *
 *  4 - fourth input device selected                                    *
