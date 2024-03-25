@@ -1,0 +1,39 @@
+Multicast Status Messages
+232.0.0.1	Zone 1
+232.0.0.2	Zone 2
+232.0.0.3	Zone 3
+232.0.0.4	Zone 4
+232.0.0.5	Zone 5
+232.0.0.6	Zone 6
+
+Other multicast traffic seen on Wireshark
+232.0.0.129	
+232.0.0.130	
+232.0.0.131	
+232.0.0.132	
+232.0.0.133	
+232.0.0.134	
+
+The command string is an 11 byte string of the format
+
+00 XX 06 ZZ 00 0b 00 06 <command> 00 ff 
+
+Where XX is a sequence number that is not used by the system and ZZ is the
+zone number:
+
+Zone 1 = 21
+Zone 2 = 22
+Zone 3 = 23
+Zone 4 = 24
+Zone 5 = 25
+Zone 6 = 26
+
+Command values  (Byte 9)
+
+Treble down   83
+Treble up     82
+Base down     81
+Base up       80
+Balance right 85
+Balance left  84
+Mute/Unmute   0b  (toggle)
