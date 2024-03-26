@@ -16,6 +16,15 @@ Other multicast traffic seen on Wireshark (I'm not sure what these are used for)
 232.0.0.133	
 232.0.0.134	
 
+Status messages are sent at periodic intervals (approximately .7 seconds)  and whenever a change is made to the status of a zone.
+
+When a zone is turned off, the status messages for that zone are abbreviated to 19 bytes in length.  When the zone is turned on, the status message is 49 bytes in length.  The status of zone elements are spread out in the message.  Precise locations are as follows:
+
+Zone number     Byte 3
+Device number   Byte 12
+Volume          Byte 23
+
+
 Command messages are unicast messages sent from controllers to the GXR2.
 
 The command string is an 11 byte string of the format
