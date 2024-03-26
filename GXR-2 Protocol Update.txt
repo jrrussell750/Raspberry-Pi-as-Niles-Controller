@@ -57,13 +57,17 @@ Balance right 85
 Balance left  84
 Mute/Unmute   0b  (toggle)
 
-Wireshark can be used to monitor both status and control messages.  To monitor status messages you should first construct a male to female adapter cable that connects pins 1, 2, 3, and 6 only.
+Wireshark can be used to monitor both status and control messages.  To monitor status messages you should first construct a male to female crossover adapter cable that interconnects the send an receive pairs as follows.
 
 RJ-45 male       RJ-45 female
-1            -   1
-2            -   2
-3            -   3
-6            -   6
+1   connects to     3
+2   connects to     6
+3   connects to     1
+4   not connected   4
+5   not connected   5
+6   connects to     2
+7   not connected   7
+8   not connected   8
 
 Plug the male end of this adapter into one of the unused ports in the Communications & Control Switch and connect a network cable between the female end and a computer that has wireshark installed.
 
