@@ -23,11 +23,17 @@ When a zone is turned off, the status messages for that zone are abbreviated to 
 Zone number     Byte 3
 Device number   Byte 12
 Volume          Byte 23
+Mute            Byte 24
+Bass            Byte 27
+Treble          Byte 30
+Balance         Byte 33
+Please note that the byte locations in this table start at 1 not zero.
 
 
-Command messages are unicast messages sent from controllers to the GXR2.
 
-The command string is an 11 byte string of the format
+Control messages are unicast messages sent from controllers to the GXR2.
+
+The control string is an 11 byte string of the format
 
 00 XX 06 ZZ 00 0b 00 06 <command> 00 ff 
 
@@ -41,7 +47,7 @@ Zone 4 = 24
 Zone 5 = 25
 Zone 6 = 26
 
-Command values  (Byte 9)
+Control values  (Byte 9)
 
 Treble down   83
 Treble up     82
@@ -50,3 +56,45 @@ Base up       80
 Balance right 85
 Balance left  84
 Mute/Unmute   0b  (toggle)
+
+Wireshark can be used to monitor both status and control messages.  To monitor status messages you should first construct a male to female adapter cable that connects pins 1, 2, 3, and 6 only.
+
+RJ-45 male       RJ-45 female
+1            -   1
+2            -   2
+3            -   3
+6            -   6
+
+Plug the male end of this adapter into one of the unused ports in the Communications & Control Switch and connect a network cable between the female end and a computer that has wireshark installed.
+
+Open wireshark and set a filter to the following value:
+
+      ip.dst==132.0.0.0/28
+
+Start capture and then, after several seconds, stop it.
+
+Examine the contents of each captured packet for status information.
+
+To monitor control messages you should first construct a three way bridge adapter that connects all eight pins of a controller to the GXR2 and the sent pair from the controller to the receive pair on a computer that has wireshark installed.
+
+RJ-45 female (ICS controller)      RJ-45 female (GXR2)          RJ-45 female  (wireshark computer)
+1                                  1                            3
+2                                  2                            6
+3                                  3                            Not connected
+4                                  4                            Not connected
+5                                  5                            Not connected
+6                                  6                            Not connected
+7                                  7                            Not connected
+8                                  8                            Not connected
+
+Please note that this bridge should be used for testing purposes only.  Bridging the send pair on a controller loads the circuit and changes the impedance of the connection.  This can cause instability in the operation of the controller.  Remove it from the circuit once testing is concluded.
+
+Connect a network cable between the ICS controller connector on the bridge and the network port on the ICS controller.  Connect a second network cable between the GXR2 cable on the bridge and one of the open ports on the Communications & Control Switch on the GXR2.  Connect a third network cable between the wireshark computer connector on the bridge and a the wired network connector on a computer that has wireshark installed.
+
+Open wireshark and set a filter to the following value:
+
+     ip.dst==10.100.0.1
+
+Start the capture, press several buttons on the controller, and then stop the capture.  You should have at least one packet for each button press.
+
+Examine the contents of each captured packet for control information.
