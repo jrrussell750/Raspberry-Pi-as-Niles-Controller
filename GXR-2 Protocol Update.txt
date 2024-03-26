@@ -1,4 +1,6 @@
-Multicast Status Messages
+Status messages are multicast messages sent from the GXR2 to controllers
+
+Multicast Status Message IPs and their associated zones are as follows
 232.0.0.1	Zone 1
 232.0.0.2	Zone 2
 232.0.0.3	Zone 3
@@ -6,13 +8,15 @@ Multicast Status Messages
 232.0.0.5	Zone 5
 232.0.0.6	Zone 6
 
-Other multicast traffic seen on Wireshark
+Other multicast traffic seen on Wireshark (I'm not sure what these are used for)
 232.0.0.129	
 232.0.0.130	
 232.0.0.131	
 232.0.0.132	
 232.0.0.133	
 232.0.0.134	
+
+Command messages are unicast messages sent from controllers to the GXR2.
 
 The command string is an 11 byte string of the format
 
