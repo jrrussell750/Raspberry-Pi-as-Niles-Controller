@@ -1,4 +1,13 @@
-Status messages are multicast messages sent from the GXR2 to controllers
+Niles GXR-2 control information
+
+Please note:  The information contained in this document was obtained by monitoring network traffic between a Niles GXR2 and one of its controllers using Wireshark.  
+Buttons on the controller were pushed, and the results recorded and compared to see which bytes changed.  
+
+There are two kinds of traffic used for control and status in the Niles system.  They are keypad commands and status update messages.  Keypad commands are 
+used to relay button presses from controllers to the GXR-2.  They are sent from controllers using IP addresses that are assigned to them by the DHCP server 
+on the GXR-2.  Update messages are sent from the GXR-2 using multicast addresses.  These messages are used to update display settings, such as turning on or 
+off button illumination or updating LCD displays on System Control Keypads.  Keypad commands start with 0x00 and Status update messages start with 0x03.  
+Keyboard commands are sent Unicast using UDP from controllers to the Niles GXR-2.  Status messages are sent Multicast from the Niles GXR-2 to controllers.
 
 Multicast Status Message IPs and their associated zones are as follows
 232.0.0.1	Zone 1
@@ -18,7 +27,8 @@ Other multicast traffic seen on Wireshark (I'm not sure what these are used for)
 
 Status messages are sent at periodic intervals (approximately .7 seconds)  and whenever a change is made to the status of a zone.
 
-When a zone is turned off, the status messages for that zone are abbreviated to 19 bytes in length.  When the zone is turned on, the status message is 49 bytes in length.  The status of zone elements are spread out in the message.  Precise locations are as follows:
+When a zone is turned off, the status messages for that zone are abbreviated to 19 bytes in length.  When the zone is turned on, the status message is 49 bytes in length.  
+The status of zone elements are spread out in the message.  Precise locations are as follows:
 
 Zone number     Byte 3
 Device number   Byte 12
@@ -29,57 +39,79 @@ Treble          Byte 30
 Balance         Byte 33
 Please note that the byte locations in this table start at 1 not zero.
 
+Control messages are are unicast messages sent from controllers to the GXR2.
+
+They consist of byte strings of the following format:
+
+00 – Message Type
+uu  -  Counter
+00
+vv  -  Zone ID/InputID  
+00
+0b
+61
+06
+ww - Command
+xx - Scope
+ff
 
 
-Control messages are unicast messages sent from controllers to the GXR2.
+zone/input ids (Byte 4)
 
-The control string is an 11 byte string of the format
+zone IDs  21, 22, 23, 24, 25, 26
+input IDs 81, 82, 83, 84, 85, 86
 
-00 XX 06 ZZ 00 0b 00 06 <command> 00 ff 
+Command values  (Byte 9)
 
-Where XX is a sequence number that is not used by the system and ZZ is the
-zone number:
+Select first input   01
+Select second input  02
+Select third input   03
+Select fourth input  04
+Select fifth input   05
+Select sixth input   06
+Volume down          07
+Volume up            08
+Off                  0a
+Mute/unmute (toggle) 0b 
+Previous             2b
+Next                 2c
+Base up              80
+Base down            81
+Treble up            82
+Treble down          83
+Balance left         84
+Balance right        85
 
-Zone 1 = 21
-Zone 2 = 22
-Zone 3 = 23
-Zone 4 = 24
-Zone 5 = 25
-Zone 6 = 26
+Scope (Byte 10)
+Single Zone          00
+All zones            02
 
-Control values  (Byte 9)
+Wireshark can be used to monitor both status and control messages.  Control messages can be monitored by bridging a 
+laptop between a Niles GXR-2 and a controller.  The controller uses standard RJ-45 female connectors with the following pin outs: 
 
-Treble down   83
-Treble up     82
-Base down     81
-Base up       80
-Balance right 85
-Balance left  84
-Mute/Unmute   0b  (toggle)
+1    TX+
+2    TX-
+3    RX+
+4    IR Signal
+5    IR Ground
+6    RX-
+7    UI Power (12VDC)
+8    UI Ground
 
-Wireshark can be used to monitor both status and control messages.  To monitor status messages you should first construct a male to female crossover adapter cable that interconnects the send an receive pairs as follows.
+The transmit and receive pairs on the connectors comply with the IEEE 803.3 standard, so the transmit pair from the controller can be connected to the 
+receive pair of the laptop using a network bridge.  Do not plug the laptop directly into any of the controller ports on the GXR2, as damage to both the 
+laptop and the GXR2 will, most likely, occur.  In other words, if you don’t know how to properly do this, don’t try it.
 
-RJ-45 male       RJ-45 female
-1   connects to     3
-2   connects to     6
-3   connects to     1
-4   not connected   4
-5   not connected   5
-6   connects to     2
-7   not connected   7
-8   not connected   8
+Controllers are two-way devices.  They send data to the GXR-2 using UDP protocol with assigned IP addresses in the range of 10.100.x.x.  They receive 
+data from the GXR-2 using UDP protocol with multicast addresses in the range of 232.0.0.x.  All controllers receive the same multicast messages.
 
-Plug the male end of this adapter into one of the unused ports in the Communications & Control Switch and connect a network cable between the female end and a computer that has wireshark installed.
+The Niles GXR-2 is a DHCP server and it issues a lease to each controller in the range of 10.100.0.x/16.  This precludes connecting the GXR-2 to your 
+local area network, unless you use a smart switch to filter out DHCP packets.  If you make the mistake of directly connecting the GXR-2 to your network, 
+its DHCP server will issue a lease to any device that asks for one.  Since the DHCP server is not configurable and doesn’t issue a gateway, your network 
+will start acting weird.
 
-Open wireshark and set a filter to the following value:
-
-      ip.dst==132.0.0.0/28
-
-Start capture and then, after several seconds, stop it.
-
-Examine the contents of each captured packet for status information.
-
-To monitor control messages you should first construct a three way bridge adapter that connects all eight pins of a controller to the GXR2 and the sent pair from the controller to the receive pair on a computer that has wireshark installed.
+To monitor control messages you should first construct a three way bridge adapter that connects all eight pins of a controller to the GXR2 and the sent pair 
+from the controller to the receive pair on a computer that has wireshark installed.
 
 RJ-45 female (ICS controller)      RJ-45 female (GXR2)          RJ-45 female  (wireshark computer)
 1                                  1                            3
@@ -91,9 +123,12 @@ RJ-45 female (ICS controller)      RJ-45 female (GXR2)          RJ-45 female  (w
 7                                  7                            Not connected
 8                                  8                            Not connected
 
-Please note that this bridge should be used for testing purposes only.  Bridging the send pair on a controller loads the circuit and changes the impedance of the connection.  This can cause instability in the operation of the controller.  Remove it from the circuit once testing is concluded.
+Please note that this bridge should be used for testing purposes only.  Bridging the send pair on a controller loads the circuit and changes the impedance of the 
+connection.  This can cause instability in the operation of the controller.  Remove it from the circuit once testing is concluded.
 
-Connect a network cable between the ICS controller connector on the bridge and the network port on the ICS controller.  Connect a second network cable between the GXR2 cable on the bridge and one of the open ports on the Communications & Control Switch on the GXR2.  Connect a third network cable between the wireshark computer connector on the bridge and a the wired network connector on a computer that has wireshark installed.
+Connect a network cable between the ICS controller connector on the bridge and the network port on the ICS controller.  Connect a second network cable between the 
+GXR2 cable on the bridge and one of the open ports on the Communications & Control Switch on the GXR2.  Connect a third network cable between the wireshark computer 
+connector on the bridge and a the wired network connector on a computer that has wireshark installed.
 
 Open wireshark and set a filter to the following value:
 
@@ -102,3 +137,30 @@ Open wireshark and set a filter to the following value:
 Start the capture, press several buttons on the controller, and then stop the capture.  You should have at least one packet for each button press.
 
 Examine the contents of each captured packet for control information.
+
+To monitor status messages you should first construct a male to female crossover adapter cable that interconnects the send an receive pairs as follows.
+
+RJ-45 male       RJ-45 female
+1   connects to     3
+2   connects to     6
+3   connects to     1
+4   not connected   4
+5   not connected   5
+6   connects to     2
+7   not connected   7
+8   not connected   8
+
+Plug the male end of this adapter into one of the unused ports in the Communications & Control Switch and connect a network cable between the female end and a 
+computer that has wireshark installed.
+
+Open wireshark and set a filter to the following value:
+
+      ip.dst==132.0.0.0/28
+
+Start capture and then, after several seconds, stop it.
+
+Examine the contents of each captured packet for status information.
+
+A simple way to control the GXR-2 is to configure a Raspberry Pi computer with an Apache web server and then connect the wired connection of the Raspberry 
+Pi directly into the management port.  The Niles GXR-2 will give the wired connection of the Raspberry Pi a DHCP lease for its 10.100.X.X network, and the 
+wireless connection will allow other computers on the local network to access the Web server on the Raspberry Pi.  
